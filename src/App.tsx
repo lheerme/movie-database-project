@@ -1,5 +1,17 @@
-function App() {
-  return <h1>eu tenteiiii</h1>
-}
+import { Outlet, useLocation } from 'react-router-dom'
+import { Header } from './components/Header'
+import { useEffect } from 'react'
 
-export default App
+export function App() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+
+  return (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  )
+}
