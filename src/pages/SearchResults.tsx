@@ -77,10 +77,10 @@ export function SearchResults() {
               }
             }}
           >
-            <SelectItem value="all">All</SelectItem>
-            <SelectItem value="movies">Movies</SelectItem>
+            <SelectItem value="all">Todos</SelectItem>
+            <SelectItem value="movies">Filmes</SelectItem>
             <SelectItem value="tv">TV</SelectItem>
-            <SelectItem value="person">Person</SelectItem>
+            <SelectItem value="person">Pessoas</SelectItem>
           </SelectContent>
         </Select>
       </div>
