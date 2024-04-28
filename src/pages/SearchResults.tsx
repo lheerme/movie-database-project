@@ -45,6 +45,14 @@ export function SearchResults() {
       }
 
       const data = await response.json()
+
+      if (currentPage > data?.total_pages) {
+        setSearchParams((params) => {
+          params.set('page', data?.total_pages)
+          return params
+        })
+      }
+
       return data
     },
     retry: false,
