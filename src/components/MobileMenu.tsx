@@ -24,7 +24,11 @@ export function MobileMenu() {
   return (
     <>
       <div className="z-10 block md:hidden">
-        <Hamburger toggled={isHamburgerOpen} toggle={handleMenuClick} />
+        <Hamburger
+          toggled={isHamburgerOpen}
+          toggle={handleMenuClick}
+          size={24}
+        />
       </div>
       <div
         className={twMerge(

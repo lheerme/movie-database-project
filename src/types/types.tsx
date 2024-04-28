@@ -380,7 +380,7 @@ export interface CombinedCreditsCast {
   video?: boolean
   vote_average: number
   vote_count: number
-  character: string
+  // character: string
   credit_id: string
   order?: number
   media_type: string

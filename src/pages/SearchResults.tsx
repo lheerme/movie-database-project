@@ -1,8 +1,6 @@
 import { Card } from '@/components/Card'
-import { Button } from '@/components/ui/button'
 import { SearchResultsRoot } from '@/types/types'
-import { useInfiniteQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import {
   Select,
   SelectContent,
@@ -10,51 +8,66 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useSearchParams } from 'react-router-dom'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Link, useSearchParams } from 'react-router-dom'
+import { Pagination } from '@/components/Pagination'
+import { CardListSkeleton } from '@/components/skeletons/CardListSkeleton'
 
 const apiKey = import.meta.env.VITE_REACT_APP_API_KEY
 
 export function SearchResults() {
-  const [pageLimit, setPageLimit] = useState(1)
   const [searchParams, setSearchParams] = useSearchParams()
   const query = searchParams.get('query') ?? ''
   const filter = searchParams.get('filter') ?? 'all'
 
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery<SearchResultsRoot>({
-      queryKey: ['search-result', query, filter],
-      queryFn: async ({ pageParam }) => {
-        try {
-          const searchType =
-            filter === 'all' ? 'multi' : filter === 'movies' ? 'movie' : filter
-          const response = await fetch(
-            `https://api.themoviedb.org/3/search/${searchType}?query=${query}&api_key=${apiKey}&language=pt-BR&page=${pageParam}`
-          )
-          const data = await response.json()
+  function validatePage(page: string | null) {
+    if (page) {
+      if (Number.isNaN(Number(page)) || Number(page) <= 0 || Number(page) > 500)
+        return 1
+      return Number(page)
+    }
 
-          data.total_pages !== pageLimit && setPageLimit(data.total_pages)
+    return 1
+  }
 
-          return data
-        } catch (error) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
-          if (error.response.status === 404) {
-            throw Error
-          }
-        }
-      },
-      initialPageParam: 1,
-      getNextPageParam: (_lastPage, allPages) =>
-        allPages.length < pageLimit ? allPages.length + 1 : undefined,
-      retry: false,
-      refetchOnWindowFocus: false,
-    })
+  const currentPage = validatePage(searchParams.get('page'))
+
+  const { data, isLoading, isError, error } = useQuery<SearchResultsRoot>({
+    queryKey: ['search-result', query, filter, currentPage],
+    queryFn: async () => {
+      const searchType =
+        filter === 'all' ? 'multi' : filter === 'movies' ? 'movie' : filter
+      const response = await fetch(
+        `https://api.themoviedb.org/3/search/${searchType}?query=${query}&api_key=${apiKey}&language=pt-BR&page=${currentPage}`
+      )
+
+      if (!response.ok) {
+        throw new Error('Algo deu errado :/')
+      }
+
+      const data = await response.json()
+      return data
+    },
+    retry: false,
+    refetchOnWindowFocus: false,
+  })
+
+  if (isError) {
+    return (
+      <main className="w-full flex flex-col items-center gap-10 my-[60px] text-white">
+        <p className="font-medium text-white text-3xl mt-5 animate-entrance-center">
+          {error.message}
+        </p>
+        <Link to={'/'} className="underline">
+          Voltar para o inicio
+        </Link>
+      </main>
+    )
+  }
 
   function handleSelectChange(value: string) {
     setSearchParams((params) => {
       params.set('filter', value)
-
+      params.delete('page')
       return params
     })
   }
@@ -84,51 +97,40 @@ export function SearchResults() {
           </SelectContent>
         </Select>
       </div>
-      {!isLoading ? (
+      {!isLoading && data ? (
         <>
-          {!data?.pages[0].results.length && (
+          {!data?.results.length && (
             <span key={666} className="text-2xl">
               Nenhum resultado encontrado :/
             </span>
           )}
           <ul className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 auto-rows-auto gap-y-7 gap-x-7 justify-items-center w-full">
-            {data?.pages.map((page) =>
-              page.results.map((result) => (
-                <li
-                  title={result.title}
-                  key={result.id}
-                  className="max-w-[185px] w-full"
-                >
-                  <Card
-                    type={result.media_type ?? filter}
-                    id={result?.id}
-                    posterPath={result?.poster_path ?? result?.profile_path}
-                    title={result?.title ?? result?.name}
-                  />
-                </li>
-              ))
-            )}
+            {data?.results.map((result) => (
+              <li
+                title={result.title}
+                key={result.id}
+                className="max-w-[185px] w-full"
+              >
+                <Card
+                  type={result.media_type ?? filter}
+                  id={result?.id}
+                  posterPath={result?.poster_path ?? result?.profile_path}
+                  title={result?.title ?? result?.name}
+                />
+              </li>
+            ))}
           </ul>
+          {data?.total_pages > 1 && (
+            <>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={data.total_pages}
+              />
+            </>
+          )}
         </>
       ) : (
-        <ul className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 auto-rows-auto gap-y-7 gap-x-7 justify-items-center w-full">
-          {Array.from({ length: 20 }).map((_, index) => (
-            <li key={index} className="max-w-[185px] w-full space-y-3">
-              <Skeleton className="max-w-[185px] w-full h-auto aspect-[0.7] rounded" />
-              <Skeleton className="max-w-[150px] w-full h-5 rounded" />
-            </li>
-          ))}
-        </ul>
-      )}
-      {hasNextPage && (
-        <Button
-          variant="secondary"
-          className="my-4 mx-auto"
-          onClick={() => fetchNextPage()}
-          disabled={isFetchingNextPage}
-        >
-          {isFetchingNextPage ? 'Carregando...' : 'Carregar mais'}
-        </Button>
+        <CardListSkeleton />
       )}
     </main>
   )

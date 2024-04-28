@@ -1,7 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { differenceInYears, format } from 'date-fns'
-import { CombinedCreditsCast, PersonDetailProps } from '@/types/types'
+import {
+  CombinedCreditsCast,
+  CombinedCreditsCrew,
+  PersonDetailProps,
+} from '@/types/types'
 import { useState } from 'react'
 import {
   Select,
@@ -21,63 +25,91 @@ export function PersonDetail() {
   const [mediaType, setMediaType] = useState<'all' | 'tv' | 'movie'>('all')
   const [showFullBiography, setShowFullBiography] = useState(false)
   const { personId } = useParams()
-  const { data, isLoading } = useQuery<PersonDetailProps>({
+  const { data, isLoading, isError, error } = useQuery<PersonDetailProps>({
     queryKey: ['person-detail', personId],
     queryFn: async () => {
       const response = await fetch(
         `https://api.themoviedb.org/3/person/${personId}?api_key=${apiKey}&language=pt-BR&append_to_response=combined_credits`
       )
+
+      if (!response.ok) {
+        throw new Error('Algo deu errado :/')
+      }
+
       const data = await response.json()
       return data
     },
+    retry: false,
+    refetchOnWindowFocus: false,
   })
 
-  function removeDuplicatesById(array: CombinedCreditsCast[] | undefined) {
-    if (array !== undefined) {
-      const withoutDuplicates = array.filter(
-        (value, index, self) =>
-          index === self.findIndex((t) => t.id === value.id)
-      )
-
-      return withoutDuplicates
-    }
-
-    return []
+  if (isError) {
+    return (
+      <main className="w-full flex flex-col items-center gap-10 my-[60px] text-white">
+        <p className="font-medium text-white text-3xl mt-5 animate-entrance-center">
+          {error.message}
+        </p>
+        <Link to={'/'} className="underline">
+          Voltar para o inicio
+        </Link>
+      </main>
+    )
   }
 
-  function filterBySelect(array: CombinedCreditsCast[] | undefined) {
-    if (array === undefined) {
-      return []
-    } else {
-      if (mediaType === 'all') return array
+  if (!isLoading) {
+    function removeDuplicatesById(
+      array: CombinedCreditsCast[] | CombinedCreditsCrew[] | undefined
+    ) {
+      if (array !== undefined) {
+        const withoutDuplicates = array.filter(
+          (value, index, self) =>
+            index === self.findIndex((t) => t.id === value.id)
+        )
 
-      const dataFiltered = array.filter((data) => data.media_type === mediaType)
-      return dataFiltered
-    }
-  }
+        return withoutDuplicates
+      }
 
-  function handleRawData(array: CombinedCreditsCast[] | undefined) {
-    if (array !== undefined) {
-      const noDuplicatesData = removeDuplicatesById(array)
-      const filteredData = filterBySelect(noDuplicatesData)
-
-      return filteredData
-    } else {
       return []
     }
-  }
 
-  function handleSelectChange(value: 'all' | 'tv' | 'movie') {
-    setMediaType(value)
-  }
+    function filterBySelect(
+      array: CombinedCreditsCast[] | CombinedCreditsCrew[] | undefined
+    ) {
+      if (array === undefined) {
+        return []
+      } else {
+        if (mediaType === 'all') return array
 
-  function handleShowFullBiography() {
-    setShowFullBiography((current) => !current)
-  }
+        const dataFiltered = array.filter(
+          (data) => data.media_type === mediaType
+        )
+        return dataFiltered
+      }
+    }
 
-  return (
-    <main className="w-full flex flex-col items-center gap-10 p-4 my-[60px]">
-      {!isLoading ? (
+    function handleRawData(
+      array: CombinedCreditsCast[] | CombinedCreditsCrew[] | undefined
+    ) {
+      if (array !== undefined) {
+        const noDuplicatesData = removeDuplicatesById(array)
+        const filteredData = filterBySelect(noDuplicatesData)
+
+        return filteredData
+      } else {
+        return []
+      }
+    }
+
+    function handleSelectChange(value: 'all' | 'tv' | 'movie') {
+      setMediaType(value)
+    }
+
+    function handleShowFullBiography() {
+      setShowFullBiography((current) => !current)
+    }
+
+    return (
+      <main className="w-full flex flex-col items-center gap-10 p-4 my-[60px]">
         <section className="max-w-7xl w-full m-auto space-y-10 z-[1] md:mt-8">
           <div className="flex flex-col md:flex-row items-start gap-6 w-full max-w-6xl">
             <img
@@ -90,7 +122,12 @@ export function PersonDetail() {
               className="w-full sm:max-w-[290px] max-w-[220px] object-cover aspect-[0.7] shadow-lg mx-auto md:mx-0"
             />
             <div className="flex flex-col gap-2">
-              <h1 className="font-medium text-3xl mb-1">{data?.name}</h1>
+              <h1 className="font-medium text-3xl">{data?.name}</h1>
+              <span className="mb-1 -mt-1">
+                {data?.known_for_department === 'Acting'
+                  ? 'Ator/Atriz'
+                  : 'Diretor(a)'}
+              </span>
               {data?.birthday && (
                 <p>
                   <span className="font-semibold">Nascimento:</span>{' '}
@@ -105,7 +142,7 @@ export function PersonDetail() {
               )}
               {data?.deathday && (
                 <p>
-                  <span className="font-semibold">Falescimento:</span>{' '}
+                  <span className="font-semibold">Falecimento:</span>{' '}
                   {format(data?.deathday ?? '', 'dd/MM/yyyy')}{' '}
                   {`(${differenceInYears(
                     data?.deathday ?? '',
@@ -173,7 +210,11 @@ export function PersonDetail() {
             </Select>
           </div>
           <ul className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 auto-rows-auto gap-y-7 gap-x-7 justify-items-center w-full mx-auto">
-            {handleRawData(data?.combined_credits.cast)
+            {handleRawData(
+              data?.known_for_department === 'Acting'
+                ? data?.combined_credits.cast
+                : data?.combined_credits.crew
+            )
               .sort((a, b) => b.vote_count - a.vote_count)
               .map((result) => (
                 <li key={result.id} className="max-w-[185px] w-full">
@@ -191,9 +232,15 @@ export function PersonDetail() {
               ))}
           </ul>
         </section>
-      ) : (
+      </main>
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <main className="w-full flex flex-col items-center gap-10 p-4 my-[60px]">
         <DetailSkeleton isPerson />
-      )}
-    </main>
-  )
+      </main>
+    )
+  }
 }

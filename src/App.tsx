@@ -3,10 +3,10 @@ import { Header } from './components/Header'
 import { useEffect } from 'react'
 
 export function App() {
-  const { pathname } = useLocation()
+  const location = useLocation()
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [pathname])
+  }, [location])
 
   return (
     <>
