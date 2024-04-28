@@ -36,7 +36,7 @@ export function MovieDetail() {
 
   if (isError) {
     return (
-      <main className="w-full flex flex-col items-center gap-10 my-[60px] text-white">
+      <main className="w-full min-h-[calc(100svh_-_84px)] flex flex-col items-center gap-10 mt-[60px] text-white">
         <p className="font-medium text-white text-3xl mt-5 animate-entrance-center">
           {error.message}
         </p>

@@ -81,7 +81,7 @@ export function SearchResults() {
   }
 
   return (
-    <main className="w-full max-w-7xl m-auto flex flex-col items-center gap-10 p-5 mt-[60px]">
+    <main className="w-full min-h-[calc(100svh_-_84px)] max-w-7xl m-auto flex flex-col items-center gap-10 p-5 mt-[60px]">
       <div className="w-full flex items-center justify-between gap-2">
         <h1 className="font-medium text-xl sm:text-2xl self-start">
           Resultados para: {query}
@@ -108,7 +108,7 @@ export function SearchResults() {
       {!isLoading && data ? (
         <>
           {!data?.results.length && (
-            <span key={666} className="text-2xl">
+            <span key={666} className="text-2xl text-center">
               Nenhum resultado encontrado :/
             </span>
           )}
