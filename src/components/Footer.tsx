@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 export function Footer() {
   return (
-    <footer className="text-center bg-muted py-1 z-[1] relative">
+    <footer className="text-center bg-muted py-1.5 z-[1] relative">
       <p className="text-primary font-medium text-xs">
         © 2024 -{' '}
         <Link
