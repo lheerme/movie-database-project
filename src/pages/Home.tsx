@@ -3,18 +3,28 @@ import { TrendingMoviesSlider } from '../components/TrendingMoviesSlider'
 import { TrendingTVSlider } from '../components/TrendingTVSlider'
 import { TopRatedMoviesSlider } from '../components/TopRatedMoviesSlider'
 import { TopRatedTVSlider } from '../components/TopRatedTVSlider'
+import poster1 from '../assets/home-posters/poster-1.jpg'
+import poster2 from '../assets/home-posters/poster-2.jpg'
+import poster3 from '../assets/home-posters/poster-3.jpg'
+import poster4 from '../assets/home-posters/poster-4.jpg'
+import poster5 from '../assets/home-posters/poster-5.jpg'
+import poster6 from '../assets/home-posters/poster-6.jpg'
+import poster7 from '../assets/home-posters/poster-7.jpg'
+import poster8 from '../assets/home-posters/poster-8.jpg'
+import poster9 from '../assets/home-posters/poster-9.jpg'
+import poster10 from '../assets/home-posters/poster-10.jpg'
 
 const postersPath = [
-  'https://image.tmdb.org/t/p/original/IYUD7rAIXzBM91TT3Z5fILUS7n.jpg',
-  'https://image.tmdb.org/t/p/original/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg',
-  'https://image.tmdb.org/t/p/original/aYcnDyLMnpKce1FOYUpZrXtgUye.jpg',
-  'https://image.tmdb.org/t/p/original/8ZTVqvKDQ8emSGUEMjsS4yHAwrp.jpg',
-  'https://image.tmdb.org/t/p/original/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg',
-  'https://image.tmdb.org/t/p/original/j26v8NGVSyJcWumzMWseZxmcbzM.jpg',
-  'https://image.tmdb.org/t/p/original/bOA2Y34ikHxsxL2CPF6xfA3nQFs.jpg',
-  'https://image.tmdb.org/t/p/original/8RPS3tBXaVbungeYAysamXIibLR.jpg',
-  'https://image.tmdb.org/t/p/original/7qx4yq9395WxqJo2GvbwnzfEnBF.jpg',
-  'https://image.tmdb.org/t/p/original/rkB4LyZHo1NHXFEDHl9vSD9r1lI.jpg',
+  poster1,
+  poster2,
+  poster3,
+  poster4,
+  poster5,
+  poster6,
+  poster7,
+  poster8,
+  poster9,
+  poster10,
 ]
 
 function Home() {
