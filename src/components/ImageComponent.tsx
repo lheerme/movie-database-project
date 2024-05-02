@@ -18,20 +18,6 @@ export function ImageComponent(props: ImageComponentProps) {
     img.src = src ?? ''
   })
 
-  // if (1 + 1 === 2) {
-  //   return (
-  //     <Blurhash
-  //       hash={hash ?? ''}
-  //       width={hashWidth}
-  //       height={hashHeight}
-  //       resolutionX={32}
-  //       resolutionY={32}
-  //       punch={1}
-  //       className="animate-pulse"
-  //     />
-  //   )
-  // }
-
   return (
     <>
       {imageLoaded ? (
