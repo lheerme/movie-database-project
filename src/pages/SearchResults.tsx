@@ -120,7 +120,13 @@ export function SearchResults() {
                 className="max-w-[185px] w-full"
               >
                 <Card
-                  type={result.media_type ?? filter}
+                  type={
+                    result.media_type
+                      ? result.media_type
+                      : filter === 'movies'
+                      ? 'movie'
+                      : filter
+                  }
                   id={result?.id}
                   posterPath={result?.poster_path ?? result?.profile_path}
                   title={result?.title ?? result?.name}
