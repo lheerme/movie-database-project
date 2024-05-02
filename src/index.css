@@ -56,4 +56,8 @@
     @apply bg-muted;
     border-radius: 2px;
   }
+
+  ::selection {
+    @apply bg-muted;
+  }
 }
