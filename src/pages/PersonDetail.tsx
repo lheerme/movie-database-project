@@ -18,6 +18,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react'
 import defaultPicLarge from '@/assets/default-profile-pic-large.jpg'
 import { Card } from '@/components/Card'
 import { DetailSkeleton } from '@/components/skeletons/DetailSkeleton'
+import { PosterImageBlur } from '@/components/PosterImageBlur'
 
 const apiKey = import.meta.env.VITE_REACT_APP_API_KEY
 
@@ -112,14 +113,14 @@ export function PersonDetail() {
       <main className="w-full flex flex-col items-center gap-10 p-4 my-[60px]">
         <section className="max-w-7xl w-full m-auto space-y-10 z-[1] md:mt-8">
           <div className="flex flex-col md:flex-row items-start gap-6 w-full max-w-6xl">
-            <img
+            <PosterImageBlur
               src={
                 data?.profile_path
                   ? `https://image.tmdb.org/t/p/w342${data?.profile_path}`
                   : defaultPicLarge
               }
               alt={`${data?.name} poster`}
-              className="w-full sm:max-w-[290px] max-w-[220px] object-cover aspect-[0.7] shadow-lg mx-auto md:mx-0"
+              className="sm:w-[290px] w-[220px] aspect-[0.7] object-cover shadow-lg mx-auto md:mx-0 animate-entrance-center"
             />
             <div className="flex flex-col gap-2">
               <h1 className="font-medium text-3xl">{data?.name}</h1>
@@ -187,7 +188,7 @@ export function PersonDetail() {
             </div>
           </div>
 
-          <div className="w-full flex items-center justify-between">
+          <div className="w-full flex items-center justify-between gap-2">
             <h2 className="text-2xl md:text-3xl font-medium tracking-wide">
               Filmografia
             </h2>

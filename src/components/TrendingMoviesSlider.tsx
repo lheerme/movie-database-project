@@ -10,6 +10,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel'
 import { CarouselSkeleton } from './skeletons/CarouselSkeleton'
+import { CarouselImageBlur } from './CarouselImageBlur'
 
 const apiKey = import.meta.env.VITE_REACT_APP_API_KEY
 
@@ -43,13 +44,12 @@ export function TrendingMoviesSlider() {
                 className="basis-1/2 md:basis-1/3 lg:basis-1/4 animate-entrance-center"
               >
                 <Link to={`/movies/${result.id}`} className="space-y-2 group">
-                  <div className="rounded overflow-hidden">
-                    <img
-                      src={`https://image.tmdb.org/t/p/w780${result.backdrop_path}`}
-                      alt={`${result.title} image`}
-                      className="group-hover:scale-110 aspect-video transition-transform w-full"
-                    />
-                  </div>
+                  <CarouselImageBlur
+                    dataForChange={data}
+                    src={`https://image.tmdb.org/t/p/w780${result.backdrop_path}`}
+                    alt={`${result.title} image`}
+                    ImgClassName="group-hover:scale-110 aspect-video transition-transform w-full"
+                  />
                   <p className="truncate font-medium">{result.title}</p>
                 </Link>
               </CarouselItem>

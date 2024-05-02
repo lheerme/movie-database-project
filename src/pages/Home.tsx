@@ -13,30 +13,37 @@ import poster7 from '../assets/home-posters/poster-7.jpg'
 import poster8 from '../assets/home-posters/poster-8.jpg'
 import poster9 from '../assets/home-posters/poster-9.jpg'
 import poster10 from '../assets/home-posters/poster-10.jpg'
+import { ImageComponent } from '@/components/ImageComponent'
 
 const postersPath = [
-  poster1,
-  poster2,
-  poster3,
-  poster4,
-  poster5,
-  poster6,
-  poster7,
-  poster8,
-  poster9,
-  poster10,
+  { poster: poster1, hash: 'L7G6U[M{01%g0NFK~Av~03%1%gVY' },
+  { poster: poster2, hash: 'LbLoGptREktQ}?xtt7xZD+i_ovj?' },
+  { poster: poster3, hash: 'L.J[9l~qM{Rj%Ls.V@ofNHWCj[ax' },
+  { poster: poster4, hash: 'LBBgh}4r_19G~k00_3D%n44o-.M|' },
+  { poster: poster5, hash: 'L5F~aa#PT8yGK$,B9uox0L.8009F' },
+  { poster: poster6, hash: 'LQN0#d00%M?c~W.8R*Rj%~xbWAV@' },
+  { poster: poster7, hash: 'LE8zNO53EI?KoJfSWTj[Mwt8t7V?' },
+  { poster: poster8, hash: 'L7I;S700Dn^*0d~Vx[4:0h^Q9s-o' },
+  { poster: poster9, hash: 'L97LAi00%L%%%%I8t7o$t-MwxWXo' },
+  { poster: poster10, hash: 'L~Mjgq~qx]M{jZa|kCayoeofV@WB' },
 ]
 
 function Home() {
-  function getRandomPoster(postersArray: string[]) {
+  function getRandomPoster(postersArray: { poster: string; hash: string }[]) {
     return postersArray[Math.floor(Math.random() * postersArray.length)]
   }
+
+  const posterList = getRandomPoster(postersPath)
+  const hashHeight = window.innerWidth > 768 ? 384 : 288
 
   return (
     <main className="w-full space-y-10 pb-5">
       <section className="w-full h-72 md:h-96 relative">
-        <img
-          src={getRandomPoster(postersPath)}
+        <ImageComponent
+          src={posterList.poster}
+          hash={posterList.hash}
+          hashWidth={window.innerWidth - 7}
+          hashHeight={hashHeight}
           alt="Random Banner"
           className="w-full h-full object-cover"
         />

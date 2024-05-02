@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { DetailSkeleton } from '@/components/skeletons/DetailSkeleton'
 import { CastList } from '@/components/CastList'
+import { PosterImageBlur } from '@/components/PosterImageBlur'
 
 const apiKey = import.meta.env.VITE_REACT_APP_API_KEY
 
@@ -75,14 +76,14 @@ export function TVDetail() {
         </div>
         <section className="max-w-7xl w-full m-auto space-y-10 z-[1] mt-8">
           <div className="flex flex-col md:flex-row items-start gap-6 w-full max-w-6xl px-4">
-            <img
+            <PosterImageBlur
               src={
                 data?.poster_path
                   ? `https://image.tmdb.org/t/p/w342${data?.poster_path}`
                   : defaultPoster
               }
               alt={`${data?.name} poster`}
-              className="w-full sm:max-w-[290px] max-w-[220px] aspect-[0.7] object-cover shadow-lg mx-auto md:mx-0 animate-entrance-center"
+              className="sm:w-[290px] w-[220px] aspect-[0.7] object-cover shadow-lg mx-auto md:mx-0 animate-entrance-center"
             />
             <div className="flex flex-col gap-2 text-white">
               <h1 className="font-medium text-white text-3xl mb-1 animate-entrance-center">

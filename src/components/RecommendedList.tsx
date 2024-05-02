@@ -9,6 +9,8 @@ import {
 } from '@/components/ui/carousel'
 import { Link } from 'react-router-dom'
 import defaultPic from '@/assets/default-poster-pic-landscape.png'
+import { ImageComponent } from './ImageComponent'
+import { useLayoutEffect, useRef, useState } from 'react'
 
 const apiKey = import.meta.env.VITE_REACT_APP_API_KEY
 
@@ -30,6 +32,18 @@ export function RecommendedList({ movieId, isTV }: RecommendedListProps) {
       return data
     },
   })
+  const ref = useRef<HTMLDivElement>(null)
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+
+  useLayoutEffect(() => {
+    if (ref.current) {
+      const { clientWidth, clientHeight } = ref.current
+      setDimensions({
+        width: clientWidth,
+        height: clientHeight,
+      })
+    }
+  }, [data])
 
   if (!isLoading && data?.results.length === 0) return
 
@@ -51,15 +65,22 @@ export function RecommendedList({ movieId, isTV }: RecommendedListProps) {
                   to={`/${isTV ? 'tv' : 'movies'}/${result.id}`}
                   className="space-y-2 group"
                 >
-                  <div className="rounded overflow-hidden">
-                    <img
+                  <div
+                    ref={ref}
+                    className="rounded aspect-video overflow-hidden"
+                  >
+                    <ImageComponent
                       src={
                         result.backdrop_path
                           ? `https://image.tmdb.org/t/p/w500${result.backdrop_path}`
                           : defaultPic
                       }
-                      alt=""
+                      alt={`${isTV ? result.name : result.title} poster`}
+                      hash={'L02i9Aj[j[j[offQfQfQayfQfQfQ'}
+                      hashWidth={dimensions.width}
+                      hashHeight={dimensions.height}
                       className="group-hover:scale-110 aspect-video object-cover transition-transform w-full"
+                      isPulse
                     />
                   </div>
                   <p className="truncate font-medium">

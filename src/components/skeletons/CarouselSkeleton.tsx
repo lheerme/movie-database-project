@@ -20,7 +20,7 @@ export function CarouselSkeleton({ isPerson }: CarouselSkeletonProps) {
           <CarouselItem
             key={index}
             className={twMerge(
-              'basis-1/2 md:basis-1/4',
+              'basis-1/2 md:basis-1/3 lg:basis-1/4',
               isPerson &&
                 'sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6 pl-6'
             )}
