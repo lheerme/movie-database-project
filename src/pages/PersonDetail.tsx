@@ -110,7 +110,7 @@ export function PersonDetail() {
     }
 
     return (
-      <main className="w-full flex flex-col items-center gap-10 p-4 my-[60px]">
+      <main className="w-full flex flex-col min-h-[calc(100svh_-_148px)] items-center gap-10 p-4 my-[60px]">
         <section className="max-w-7xl w-full m-auto space-y-10 z-[1] md:mt-8">
           <div className="flex flex-col md:flex-row items-start gap-6 w-full max-w-6xl">
             <PosterImageBlur
