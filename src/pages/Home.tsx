@@ -13,6 +13,12 @@ import poster7 from '../assets/home-posters/poster-7.jpg'
 import poster8 from '../assets/home-posters/poster-8.jpg'
 import poster9 from '../assets/home-posters/poster-9.jpg'
 import poster10 from '../assets/home-posters/poster-10.jpg'
+import poster11 from '../assets/home-posters/poster-11.jpg'
+import poster12 from '../assets/home-posters/poster-12.jpg'
+import poster13 from '../assets/home-posters/poster-13.jpg'
+import poster14 from '../assets/home-posters/poster-14.jpg'
+import poster15 from '../assets/home-posters/poster-15.jpg'
+import poster16 from '../assets/home-posters/poster-16.jpg'
 import { ImageComponent } from '@/components/ImageComponent'
 
 const postersPath = [
@@ -26,6 +32,12 @@ const postersPath = [
   { poster: poster8, hash: 'L7I;S700Dn^*0d~Vx[4:0h^Q9s-o' },
   { poster: poster9, hash: 'L97LAi00%L%%%%I8t7o$t-MwxWXo' },
   { poster: poster10, hash: 'L~Mjgq~qx]M{jZa|kCayoeofV@WB' },
+  { poster: poster11, hash: 'L49iVn0fzB^j7d=eR6J70e}Y3V;N' },
+  { poster: poster12, hash: 'L24V8qj[00RP8wWB?vtR_Nof8^Rj' },
+  { poster: poster13, hash: 'LC97kUxu01nM~pof9GxWbbWBM{t7' },
+  { poster: poster14, hash: 'L13I-M?]EyJk=_-;S5Di.8.8%LM_' },
+  { poster: poster15, hash: 'L26bJmx[00DiT1Rjn2x[00M{_N.7' },
+  { poster: poster16, hash: 'L6A9f@^P-oxa~As:^jxa01NHR*EM' },
 ]
 
 function Home() {
