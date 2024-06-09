@@ -13,6 +13,7 @@ import { PersonDetail } from './pages/PersonDetail.tsx'
 import { People } from './pages/People.tsx'
 import { SearchResults } from './pages/SearchResults.tsx'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+import { ErrorElement } from './pages/ErrorElement.tsx'
 
 const queryClient = new QueryClient()
 
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <ErrorElement />,
     children: [
       {
         path: '/',
