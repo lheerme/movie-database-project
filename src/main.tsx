@@ -12,6 +12,7 @@ import { TVDetail } from './pages/TVDetail.tsx'
 import { PersonDetail } from './pages/PersonDetail.tsx'
 import { People } from './pages/People.tsx'
 import { SearchResults } from './pages/SearchResults.tsx'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 const queryClient = new QueryClient()
 
@@ -59,7 +60,10 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <HelmetProvider>
+        <Helmet titleTemplate='%s | Movie Database Project' />
+        <RouterProvider router={router} />
+      </HelmetProvider>
     </QueryClientProvider>
   </React.StrictMode>
 )

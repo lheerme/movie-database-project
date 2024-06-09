@@ -19,6 +19,7 @@ import defaultPicLarge from '@/assets/default-profile-pic-large.jpg'
 import { Card } from '@/components/Card'
 import { DetailSkeleton } from '@/components/skeletons/DetailSkeleton'
 import { PosterImageBlur } from '@/components/PosterImageBlur'
+import { Helmet } from 'react-helmet-async'
 
 const apiKey = import.meta.env.VITE_REACT_APP_API_KEY
 
@@ -111,6 +112,7 @@ export function PersonDetail() {
 
     return (
       <main className="w-full flex flex-col min-h-[calc(100svh_-_148px)] items-center gap-10 p-4 my-[60px]">
+        <Helmet title={data?.name} />
         <section className="max-w-7xl w-full m-auto space-y-10 z-[1] md:mt-8">
           <div className="flex flex-col md:flex-row items-start gap-6 w-full max-w-6xl">
             <PosterImageBlur

@@ -10,6 +10,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react'
 import { DetailSkeleton } from '@/components/skeletons/DetailSkeleton'
 import { CastList } from '@/components/CastList'
 import { PosterImageBlur } from '@/components/PosterImageBlur'
+import { Helmet } from 'react-helmet-async'
 
 const apiKey = import.meta.env.VITE_REACT_APP_API_KEY
 
@@ -71,6 +72,7 @@ export function MovieDetail() {
 
     return (
       <main className="w-full flex flex-col items-center gap-10 my-[60px] text-white">
+        <Helmet title={data?.title} />
         <div
           className="fixed flex inset-0 h-lvh"
           style={{

@@ -20,6 +20,7 @@ import poster14 from '../assets/home-posters/poster-14.jpg'
 import poster15 from '../assets/home-posters/poster-15.jpg'
 import poster16 from '../assets/home-posters/poster-16.jpg'
 import { ImageComponent } from '@/components/ImageComponent'
+import { Helmet } from 'react-helmet-async'
 
 const postersPath = [
   { poster: poster1, hash: 'L7G6U[M{01%g0NFK~Av~03%1%gVY' },
@@ -50,6 +51,7 @@ function Home() {
 
   return (
     <main className="w-full space-y-10 pb-5">
+      <Helmet title='Home' />
       <section className="w-full h-72 md:h-96 relative">
         <ImageComponent
           src={posterList.poster}

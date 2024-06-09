@@ -11,6 +11,7 @@ import {
 import { Card } from '@/components/Card'
 import { Pagination } from '@/components/Pagination'
 import { CardListSkeleton } from '@/components/skeletons/CardListSkeleton'
+import { Helmet } from 'react-helmet-async'
 
 const apiKey = import.meta.env.VITE_REACT_APP_API_KEY
 
@@ -82,6 +83,7 @@ export function TV() {
 
   return (
     <main className="w-full max-w-7xl m-auto flex flex-col items-center gap-10 p-5 mt-[60px]">
+      <Helmet title='TV' />
       <div className="w-full flex items-center justify-between gap-2">
         <h1 className="font-medium text-xl sm:text-2xl self-start">
           {isTopRated ? 'Mais Avaliados' : 'Populares'} na TV
