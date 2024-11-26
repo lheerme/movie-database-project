@@ -71,7 +71,7 @@ export function MovieDetail() {
     )
 
     return (
-      <main className="w-full flex flex-col items-center gap-10 my-[60px] text-white">
+      <main className="w-full min-h-[calc(100svh_-_148px)] flex flex-col items-center gap-10 my-[60px] text-white">
         <Helmet title={data?.title} />
         <div
           className="fixed flex inset-0 h-lvh"
@@ -171,7 +171,7 @@ export function MovieDetail() {
             </div>
           </div>
 
-          {data?.credits.cast && (
+          {data?.credits.cast && data?.credits.cast.length > 0 && (
             <div className="space-y-4">
               <h2 className="text-2xl md:text-3xl font-medium tracking-wide px-4">
                 Elenco
