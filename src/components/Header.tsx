@@ -1,22 +1,14 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { MobileMenu } from './MobileMenu'
 import { SearchInput } from './SearchInput'
 import { NavList } from './NavList'
+import { useScroll } from '@/hooks/useScroll'
 
 export function Header() {
-  const [isScroll, setIsScroll] = useState(false)
+  const isScroll = useScroll(25)
 
-  function handleScroll() {
-    if (window.scrollY > 25) {
-      setIsScroll(true)
-    } else {
-      setIsScroll(false)
-    }
-  }
-
-  window.addEventListener('scroll', handleScroll)
+  console.log(isScroll)
 
   return (
     <header
